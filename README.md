@@ -1,5 +1,6 @@
-# 🚚 Jetton Implementation Template by Howard
+# SENSE IN CRYPTO JETTON. Forked from "🚚 Jetton Implementation Template by Howard"
 
+This is token for Sense In Crypto community. For fun only!
 This project is targeting to provide a template for the Jetton Implementation. It's a good start point for the developer to start the Jetton Implementation.
 
 ### Usage

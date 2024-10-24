@@ -1,18 +1,3 @@
-struct JettonData {
-    total_supply: Int;
-    mintable: Bool;
-    owner: Address;
-    content: Cell;
-    wallet_code: Cell;
-}
-
-struct JettonWalletData {
-    balance: Int;
-    owner: Address;
-    master: Address;
-    code: Cell;
-}
-
 message(0xf8a7ea5) TokenTransfer {
     query_id: Int as uint64;
     amount: Int as coins;

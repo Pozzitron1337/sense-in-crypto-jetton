@@ -53,3 +53,44 @@ function bufferToChunks(buff: Buffer, chunkSize: number) {
     }
     return chunks;
 }
+
+//////////////////////////////////
+
+/// SHIT CODE in function parseToJSON. There should be another way to convert string like that:
+// x{00C_}
+// x{2_}
+//  x{BFF082EB663B57A00192F4A6AC467288DF2DFEDDB9DA1BEE28F6521C8BEBD21F1EC_}
+//   x{0068747470733A2F2F7261772E67697468756275736572636F6E74656E742E636F6D2F506F7A7A6974726F6E313333372F73656E73652D696E2D63727970746F2E6C6F676F2F726566732F68656164732F6D61696E2F73656E73652D696E2D63727970746F2E6A7067}
+//  x{2_}
+//   x{2_}
+//    x{BF4546A6FFE1B79CFDD86BAD3DB874313DCDE2FB05E6A74AA7F3552D9617C79D13_}
+//     x{0053656E736520496E2043727970746F20436F696E}
+//    x{BF6ED4F942A7848CE2CB066B77A1128C6A1FF8C43F438A2DCE24612BA9FFAB8B03_}
+//     x{0053494343}
+//   x{BF89046F7A37AD0EA7CEE73355984FA5428982F8B37C8F7BCEC91F7AC71A7CD104}
+//    x{00546865206D656D626572206F662074686520636F6D6D756E69747920686F6C64207468652053656E736520496E2043727970746F20436F696E}
+// To pretty json: 
+//  {
+//    image: 'https://raw.githubusercontent.com/Pozzitron1337/sense-in-crypto-jetton/refs/heads/logo/sense-in-crypto.jpg',
+//    name: 'Sense In Crypto Coin',
+//    symbol: 'SICC',
+//    description: 'The member of the community hold the Sense In Crypto Coin'
+//  }
+export function parseToJSON(input: any) {
+    function hexToString(hex: any) {
+        return Buffer.from(hex, 'hex').toString('utf8').replace('\x00', '');
+    }
+    
+    const regex = /x{([0-9A-Fa-f]+)}/g;
+    
+    const matches = Array.from(input.matchAll(regex), (m: RegExpMatchArray) => m[1]);
+    console.log(matches)
+    const json = {
+        image: hexToString(matches[0]),
+        name: hexToString(matches[1]),
+        symbol: hexToString(matches[2]),
+        description: hexToString(matches[4])
+    };
+
+    return json;
+}

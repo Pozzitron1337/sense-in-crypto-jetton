@@ -2,8 +2,8 @@ import { beginCell, contractAddress, toNano, TonClient4, WalletContractV4, inter
 import { mnemonicToPrivateKey } from "ton-crypto";
 import { buildOnchainMetadata } from "./utils/jetton-helpers";
 
-import { SampleJetton, storeMint } from "./output/SampleJetton_SampleJetton";
-import { JettonDefaultWallet, TokenBurn } from "./output/SampleJetton_JettonDefaultWallet";
+import { SenseInCryptoJetton, storeMint } from "./output/SenseInCryptoJetton_SenseInCryptoJetton";
+import { JettonDefaultWallet, TokenBurn } from "./output/SenseInCryptoJetton_JettonDefaultWallet";
 
 import { printSeparator } from "./utils/print";
 import * as dotenv from "dotenv";
@@ -16,7 +16,7 @@ dotenv.config();
         endpoint: "https://mainnet-v4.tonhubapi.com",
     });
 
-    let mnemonics = (process.env.mnemonics_2 || "").toString(); // 🔴 Change to your own, by creating .env file!
+    let mnemonics = (process.env.mnemonics || "").toString(); // 🔴 Change to your own, by creating .env file!
     let keyPair = await mnemonicToPrivateKey(mnemonics.split(" "));
     let secretKey = keyPair.secretKey;
     let workchain = 0; //we are working in basechain.
@@ -26,24 +26,23 @@ dotenv.config();
     let deployer_wallet_contract = client4.open(deployer_wallet);
 
     const jettonParams = {
-        name: "XXXXXX Name",
-        description: "This is description of Test Jetton Token in Tact-lang",
-        symbol: "XXXXXXXXX",
-        image: "https://avatars.githubusercontent.com/u/104382459?s=200&v=4",
+        name: "Sense In Crypto Coin",
+        description: "The member of the community hold the Sense In Crypto Coin",
+        symbol: "SICC",
+        image: "https://raw.githubusercontent.com/Pozzitron1337/sense-in-crypto-jetton/refs/heads/logo/sense-in-crypto.jpg",
     };
 
     // Create content Cell
     let content = buildOnchainMetadata(jettonParams);
-    let max_supply = toNano(123456766689011); // 🔴 Set the specific total supply in nano
 
     // Compute init data for deployment
     // NOTICE: the parameters inside the init functions were the input for the contract address
     // which means any changes will change the smart contract address as well
-    let init = await SampleJetton.init(deployer_wallet_contract.address, content, max_supply);
+    let init = await SenseInCryptoJetton.init(deployer_wallet_contract.address, content);
     let jettonMaster = contractAddress(workchain, init);
     let deployAmount = toNano("0.15");
 
-    let supply = toNano(1000000000); // 🔴 Specify total supply in nano
+    let supply = toNano(100); // 🔴 Specify total supply in nano
     let packed_msg = beginCell()
         .store(
             storeMint({

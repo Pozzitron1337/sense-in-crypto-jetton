@@ -1,7 +1,7 @@
 {
     "projects": [{
-        "name": "SampleJetton",
-        "path": "./sources/contract.tact",
+        "name": "SenseInCryptoJetton",
+        "path": "./sources/sense_in_crypto_jetton.tact",
         "output": "./sources/output",
         "options":{
             

@@ -117,6 +117,14 @@ trait Jetton with Ownable {
     }
 }
 
+struct JettonData {
+    total_supply: Int;
+    mintable: Bool;
+    owner: Address;
+    content: Cell;
+    wallet_code: Cell;
+}
+
 // ============================================================ //
 @interface("org.ton.jetton.wallet")
 contract JettonDefaultWallet
@@ -254,4 +262,11 @@ contract JettonDefaultWallet
                 code: initOf JettonDefaultWallet(self.owner, self.master).code
             };
     }
+}
+
+struct JettonWalletData {
+    balance: Int;
+    owner: Address;
+    master: Address;
+    code: Cell;
 }
